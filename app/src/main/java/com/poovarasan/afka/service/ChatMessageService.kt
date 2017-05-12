@@ -31,11 +31,9 @@ class ChatMessageService : Service() {
 	
 	val chatListener = ChatManagerListener { chat, createdLocally -> chat.addMessageListener(messageListener) }
 	val messageListener = ChatMessageListener { chat, message ->
-		run {
-			Handler(Looper.getMainLooper()).post({
-				toast(message.subject  + "" +message.body)
-			})
-		}
+		Handler(Looper.getMainLooper()).post({
+			toast(message.subject + "" + message.body)
+		})
 	}
 	
 	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {

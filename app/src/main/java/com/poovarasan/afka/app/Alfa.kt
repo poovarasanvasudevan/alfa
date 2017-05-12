@@ -1,7 +1,11 @@
 package com.poovarasan.afka.app
 
 import android.app.Application
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.util.Log
 import com.birbit.android.jobqueue.JobManager
 import com.birbit.android.jobqueue.config.Configuration
@@ -9,6 +13,8 @@ import com.birbit.android.jobqueue.log.CustomLogger
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.poovarasan.afka.R
 import com.poovarasan.afka.core.Prefs
+import com.poovarasan.afka.core.isConnected
+import com.poovarasan.afka.core.login
 import com.poovarasan.afka.storage.SimpleStorage
 import com.poovarasan.afka.storage.Storage
 import org.jivesoftware.smack.ConnectionConfiguration
@@ -111,6 +117,18 @@ class Alfa : Application() {
 		//xmppConnection.setPacketReplyTimeout(10000000);
 		val pingManager = PingManager.getInstanceFor(xmppConnection)
 		pingManager.pingInterval = 300
+		
+		
+		val networkStateReceiver = object : BroadcastReceiver() {
+			override fun onReceive(context: Context?, intent: Intent?) {
+				if (isConnected()) {
+					login()
+				}
+			}
+		}
+		
+		val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+		registerReceiver(networkStateReceiver, filter);
 	}
 	
 	@Throws(KeyStoreException::class, NoSuchAlgorithmException::class, KeyManagementException::class, IOException::class, CertificateException::class)

@@ -52,8 +52,18 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "alfa", 
 			"fromUser" to INTEGER,
 			"messageStorage" to INTEGER,
 			"createdDate" to TEXT,
-			FOREIGN_KEY("fromUser","User","_id"),
-			FOREIGN_KEY("messageStorage","MessageStorage","_id")
+			FOREIGN_KEY("fromUser", "User", "_id"),
+			FOREIGN_KEY("messageStorage", "MessageStorage", "_id")
+		)
+		
+		
+		db.createTable(
+			"Status",
+			true,
+			"_id" to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+			"statusText" to TEXT,
+			"active" to INTEGER,
+			"createdDate" to TEXT
 		)
 	}
 	
@@ -64,4 +74,4 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "alfa", 
 
 // Access property for Context
 val Context.database: MyDatabaseOpenHelper
-	get() = MyDatabaseOpenHelper.getInstance(applicationContext)
+	get() = MyDatabaseOpenHelper.getInstance(this)

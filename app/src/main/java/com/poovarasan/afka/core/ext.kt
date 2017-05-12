@@ -28,6 +28,7 @@ import com.poovarasan.afka.storage.Storage
 import com.poovarasan.afka.widget.FerescoProgressBar
 import org.jetbrains.anko.connectivityManager
 import org.jetbrains.anko.telephonyManager
+import org.jivesoftware.smack.SmackException
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import pl.tajchert.nammu.Nammu
 import pl.tajchert.nammu.PermissionCallback
@@ -110,12 +111,22 @@ fun Context.login() {
 		val username = Prefs.getString("username", "")
 		val password = Prefs.getString("password", "")
 		
-		val xmpp = xmppConnect()
-		
-		if (isConnected()) {
-			//if (xmpp.isConnected) xmpp.disconnect()
-			if (!xmpp.isConnected) xmpp.connect()
-			if (!xmpp.isAuthenticated) xmppConnect().login(username, password)
+		try {
+			val xmpp = xmppConnect()
+			
+			if (isConnected()) {
+				//if (xmpp.isConnected) xmpp.disconnect()
+				if (!xmpp.isConnected) xmpp.connect()
+				if (!xmpp.isAuthenticated) xmppConnect().login(username, password)
+			}
+		}catch (e:Exception) {
+			if(e is SmackException.AlreadyConnectedException) {
+				
+			}
+			
+			if(e is SmackException.AlreadyLoggedInException) {
+				
+			}
 		}
 	}
 }

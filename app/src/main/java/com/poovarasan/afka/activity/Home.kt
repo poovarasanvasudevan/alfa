@@ -50,12 +50,7 @@ class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		HomeUI().setContentView(this)
-		
-		
-		if(xmppConnect().isAuthenticated) {
-			toast("Connected")
-		}
-		
+				
 		val chatManager = ChatManager.getInstanceFor(xmppConnect()).addChatListener { chat, createdLocally ->
 			run {
 				chat.addMessageListener { chat, message ->

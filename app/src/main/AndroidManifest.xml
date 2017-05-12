@@ -69,7 +69,7 @@
         </receiver>
 
 
-        <service android:name=".service.AuthenticationService" >
+        <service android:name=".service.AuthenticationService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="toolbar" type="id"/>
+    <item name="tabLayout" type="id"/>
+    <item name="viewPager" type="id"/>
+    <item name="accountHeader" type="id"/>
+    <item name="myProfileImage" type="id"/>
+    <item name="syncContactLayout" type="id"/>
+    <item name="accessContactButton" type="id"/>
+    <item name="contactAdapterImage" type="id"/>
+    <item name="contactAdapterName" type="id"/>
+    <item name="contactList" type="id"/>
+    <item name="contactListLayout" type="id"/>
+    <item name="contactListFastScroll" type="id"/>
+    <item name="contactListFillLayout" type="id"/>
+
+
+    <item name="contactListType" type="integer"/>
+</resources>

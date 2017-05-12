@@ -14,9 +14,11 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.poovarasan.afka.R
 import com.poovarasan.afka.core.Prefs
 import com.poovarasan.afka.core.isConnected
-import com.poovarasan.afka.core.login
+import com.poovarasan.afka.core.isMyServiceRunning
+import com.poovarasan.afka.service.ChatMessageService
 import com.poovarasan.afka.storage.SimpleStorage
 import com.poovarasan.afka.storage.Storage
+import org.jetbrains.anko.startService
 import org.jivesoftware.smack.ConnectionConfiguration
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
@@ -122,7 +124,10 @@ class Alfa : Application() {
 		val networkStateReceiver = object : BroadcastReceiver() {
 			override fun onReceive(context: Context?, intent: Intent?) {
 				if (isConnected()) {
-					login()
+					if (!isMyServiceRunning(ChatMessageService::class.java)) {
+						startService<ChatMessageService>()
+						//toast("Service Started")
+					}
 				}
 			}
 		}

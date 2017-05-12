@@ -1,6 +1,7 @@
 package com.poovarasan.afka.core
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.database.Cursor
 import android.graphics.BitmapFactory
@@ -119,18 +120,28 @@ fun Context.login() {
 				if (!xmpp.isConnected) xmpp.connect()
 				if (!xmpp.isAuthenticated) xmppConnect().login(username, password)
 			}
-		}catch (e:Exception) {
-			if(e is SmackException.AlreadyConnectedException) {
+		} catch (e: Exception) {
+			if (e is SmackException.AlreadyConnectedException) {
 				
 			}
 			
-			if(e is SmackException.AlreadyLoggedInException) {
+			if (e is SmackException.AlreadyLoggedInException) {
 				
 			}
 		}
 	}
 }
 
+
+fun Context.isMyServiceRunning(serviceClass: Class<*>): Boolean {
+	val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+	for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
+		if (serviceClass.name == service.service.className) {
+			return true
+		}
+	}
+	return false
+}
 
 fun Context.reconnect() {
 	

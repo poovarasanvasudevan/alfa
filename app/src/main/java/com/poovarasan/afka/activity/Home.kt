@@ -12,12 +12,9 @@ import com.poovarasan.afka.R
 import com.poovarasan.afka.adapter.TabAdapter
 import com.poovarasan.afka.base.BaseActivity
 import com.poovarasan.afka.core.getIcon
-import com.poovarasan.afka.core.xmppConnect
 import com.poovarasan.afka.ui.HomeUI
 import org.jetbrains.anko.find
 import org.jetbrains.anko.setContentView
-import org.jetbrains.anko.toast
-import org.jivesoftware.smack.chat.ChatManager
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 /**
@@ -51,15 +48,15 @@ class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
 		super.onCreate(savedInstanceState)
 		HomeUI().setContentView(this)
 				
-		val chatManager = ChatManager.getInstanceFor(xmppConnect()).addChatListener { chat, createdLocally ->
-			run {
-				chat.addMessageListener { chat, message ->
-					this@Home.runOnUiThread {
-						toast(message.body + message.type.name)
-					}
-				}
-			}
-		}
+//		val chatManager = ChatManager.getInstanceFor(xmppConnect()).addChatListener { chat, createdLocally ->
+//			run {
+//				chat.addMessageListener { chat, message ->
+//					this@Home.runOnUiThread {
+//						toast(message.body + message.type.name)
+//					}
+//				}
+//			}
+//		}
 		
 		tabLayout = find(R.id.tabLayout)
 		viewPager = find(R.id.viewPager)
@@ -78,6 +75,7 @@ class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
 		tabLayout.addTab(tabLayout.newTab())
 		tabLayout.addTab(tabLayout.newTab())
 		tabLayout.tabGravity = TabLayout.GRAVITY_FILL
+		
 		
 		
 		val pageAdapter: TabAdapter = TabAdapter(supportFragmentManager, tabLayout.tabCount)

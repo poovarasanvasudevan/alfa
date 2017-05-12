@@ -62,7 +62,7 @@
 
         <service android:name=".service.ChatMessageService"/>
 
-        <receiver android:name=".receiver.ChatMessageReceiver">
+        <receiver android:name=".receiver.ChatMessageReceiver" android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/camera_take" android:icon="@drawable/camera_app"
+          android:title="@string/camera_app"/>
+    <item android:id="@+id/gallery_take" android:icon="@drawable/gallery_app"
+          android:title="@string/gallery_app"/>
+    <item android:id="@+id/delete_photo" android:icon="@drawable/delete_app"
+          android:title="@string/no_photo_app"/>
+</menu>

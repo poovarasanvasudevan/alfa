@@ -25,6 +25,7 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk25.listeners.onClick
+import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
@@ -70,7 +71,7 @@ class ContactFragment : Fragment() {
 	}
 	
 	fun getPhoto(contactId: Long): Bitmap? {
-		val inputStream = ContactsContract.Contacts.openContactPhotoInputStream(activity.contentResolver,
+		val inputStream = ContactsContract.Contacts.openContactPhotoInputStream(act.contentResolver,
 			ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId))
 		var photo: Bitmap? = null
 		if (inputStream != null) {

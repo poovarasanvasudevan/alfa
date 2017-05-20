@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import com.poovarasan.afka.core.isConnected
 import com.poovarasan.afka.core.login
 import com.poovarasan.afka.core.xmppConnect
@@ -36,7 +37,7 @@ class ChatMessageService : Service() {
 		})
 	}
 	
-	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 		if (isConnected()) {
 			login()
 			ChatManager.getInstanceFor(xmppConnect()).addChatListener(chatListener)
@@ -46,5 +47,13 @@ class ChatMessageService : Service() {
 	
 	override fun onBind(intent: Intent): IBinder? {
 		return null
+	}
+	
+	override fun onDestroy() {
+		super.onDestroy()
+		Log.i("Service","Service Stopped Service")
+		
+		val broadcastIntent = Intent("com.poovarasan.afka.RestartService")
+		sendBroadcast(broadcastIntent)
 	}
 }

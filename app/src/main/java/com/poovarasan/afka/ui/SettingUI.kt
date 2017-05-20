@@ -25,13 +25,13 @@ class SettingUI<T> : AnkoComponent<T> {
 				
 				ferescoImage {
 					id = R.id.myProfileImage
-					lparams(width = dip(90), height = dip(90)) {
+					lparams(width = dip(80), height = dip(80)) {
 						centerVertically()
 					}
 				}
 				
 				
-				lparams(width = matchParent, height = dip(130)) {
+				lparams(width = matchParent, height = dip(110)) {
 					padding = dip(10)
 				}
 			}

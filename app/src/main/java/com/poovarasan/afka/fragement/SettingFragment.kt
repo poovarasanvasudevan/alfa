@@ -10,13 +10,17 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutCompat
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.facebook.drawee.view.SimpleDraweeView
 import com.flipkart.circularImageView.BitmapDrawer
 import com.flipkart.circularImageView.CircularDrawable
+import com.kennyc.bottomsheet.BottomSheet
+import com.kennyc.bottomsheet.BottomSheetListener
 import com.poovarasan.afka.R
+import com.poovarasan.afka.activity.util.PhotoPicker
 import com.poovarasan.afka.config.Config
 import com.poovarasan.afka.core.*
 import com.poovarasan.afka.job.ProfilePicUploaderJob
@@ -31,6 +35,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk25.listeners.onLongClick
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import org.jivesoftware.smackx.vcardtemp.VCardManager
@@ -148,7 +153,29 @@ class SettingFragment : Fragment() {
 		
 		
 		profileImage!!.onLongClick {
-			
+
+
+			BottomSheet
+					.Builder(context)
+					.setTitle("Choose Image")
+					//.grid()
+					.setSheet(R.menu.profile_pic_selection)
+					.setListener(object :BottomSheetListener {
+						override fun onSheetItemSelected(p0: BottomSheet, p1: MenuItem?) {
+							startActivity<PhotoPicker>()
+						}
+
+						override fun onSheetDismissed(p0: BottomSheet, p1: Int) {
+
+						}
+
+						override fun onSheetShown(p0: BottomSheet) {
+
+						}
+
+					})
+					.show()
+
 			val setup = PickSetup()
 				.setTitle("Choose Profile Image")
 				.setTitleColor(Color.WHITE)
@@ -170,7 +197,8 @@ class SettingFragment : Fragment() {
 					profilePic = r.bitmap
 					storeMyProfilePic(r.bitmap)
 					JOB.addJobInBackground(ProfilePicUploaderJob(NETWORK_PARAMS))
-				}.show(activity.supportFragmentManager)
+				}
+					//.show(activity.supportFragmentManager)
 			
 			
 			true

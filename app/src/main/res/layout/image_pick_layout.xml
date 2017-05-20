@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:id="@+id/picker_holder"
+        android:layout_height="match_parent">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:padding="1dp"
+            android:background="@color/black_85"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/pick_photo"
+            android:layout_height="match_parent"/>
+</RelativeLayout>

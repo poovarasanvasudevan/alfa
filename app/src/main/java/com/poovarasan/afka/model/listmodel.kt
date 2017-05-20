@@ -11,8 +11,24 @@ import android.graphics.drawable.Drawable
 
 
 data class ContactModel(
-	val contactID: Long,
-	val name: String,
-	val phoneNumber: List<String>,
-	val image: Drawable?
+        val contactID: Long,
+        val name: String,
+        val phoneNumber: List<String>,
+        val image: Drawable?
 )
+
+class ImageModel(
+        /**
+         * @return the imageTitle
+         */
+        /**
+         * @param imageTitle the imageTitle to set
+         */
+        var imageTitle: String?,
+        /**
+         * @return the imagePath
+         */
+        /**
+         * @param imagePath the imagePath to set
+         */
+        var imagePath: String?)

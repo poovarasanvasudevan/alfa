@@ -8,8 +8,9 @@ import com.poovarasan.afka.core.Prefs
 import com.poovarasan.afka.core.internetAvailable
 import com.poovarasan.afka.core.isMyServiceRunning
 import com.poovarasan.afka.core.xmppConnect
-import com.poovarasan.afka.service.ChatMessageService
+import com.poovarasan.afka.service.XMPPService
 import com.poovarasan.afka.ui.MainActivityUI
+import me.leolin.shortcutbadger.ShortcutBadger
 import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,9 +18,10 @@ class MainActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		MainActivityUI().setContentView(this)
 		
-		if (!isMyServiceRunning(ChatMessageService::class.java)) {
-			startService<ChatMessageService>()
-			//toast("Service Started")
+		
+		
+		if (!isMyServiceRunning(XMPPService::class.java)) {
+			startService<XMPPService>()
 		}
 		if (Prefs.contains("username") && Prefs.contains("password")) {
 			

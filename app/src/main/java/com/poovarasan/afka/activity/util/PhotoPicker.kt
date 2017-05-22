@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.fastadapter_extensions.ActionModeHelper
 import com.poovarasan.afka.R
 import com.poovarasan.afka.adapter.ImagePickAdapter
 import com.poovarasan.afka.adapter.PhotoPickCallback
+import com.poovarasan.afka.core.color
 import com.poovarasan.afka.core.getAllImages
 import com.poovarasan.afka.ui.PhotoPickerUI
 import org.jetbrains.anko.doAsync
@@ -33,6 +35,10 @@ class PhotoPicker : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		PhotoPickerUI().setContentView(this)
 		
+		
+		setSupportActionBar(find<Toolbar>(R.id.toolbar))
+		supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+		
 		fastAdapter = FastItemAdapter()
 		fastAdapter.setHasStableIds(true);
 		fastAdapter.withSelectable(true);
@@ -45,16 +51,26 @@ class PhotoPicker : AppCompatActivity() {
 		
 		fastAdapter.withOnPreClickListener { v, adapter, item, position ->
 			val res = actionModeHelper.onClick(item)
+			if(res!=null && res) {
+				doSelectionDesign(item)
+			} else {
+				doUnSelectionDesign(item)
+			}
 			res ?: false
 		}
 		
 		fastAdapter.withOnPreLongClickListener { v, adapter, item, position ->
 			val actionMode = actionModeHelper.onLongClick(this@PhotoPicker, position)
 			if (actionMode != null) {
-				//findViewById(R.id.action_mode_bar).setBackgroundColor(Color.GRAY)
+				findViewById(R.id.action_mode_bar).setBackgroundColor(applicationContext.color(R.color.colorPrimary))
 			}
+			doSelectionDesign(item)
 			actionMode != null
 		}
+		
+		
+		
+		
 		doAsync {
 			val imageList = getAllImages()
 			
@@ -66,5 +82,15 @@ class PhotoPicker : AppCompatActivity() {
 				fastAdapter.add(imageList)
 			}
 		}
+	}
+	
+	fun doSelectionDesign(item:ImagePickAdapter) {
+		item.setSelection()
+	}
+	fun doUnSelectionDesign(item:ImagePickAdapter) {
+		item.unSelect()
+	}
+	override fun onBackPressed() {
+		finish()
 	}
 }

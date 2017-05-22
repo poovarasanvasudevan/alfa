@@ -15,7 +15,7 @@
                         android:padding="8dp"
                         android:layout_height="match_parent">
 
-            <ImageView
+            <com.poovarasan.afka.widget.LoaderImageView
                     android:layout_width="50dp"
                     android:id="@id/contactAdapterImage"
                     android:layout_alignParentLeft="true"
@@ -27,7 +27,7 @@
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@id/contactAdapterImage"
                             android:layout_height="wrap_content">
-                <TextView
+                <com.poovarasan.afka.widget.LoaderTextView
                         android:layout_width="match_parent"
                         android:id="@id/contactAdapterName"
                         android:textSize="16dp"

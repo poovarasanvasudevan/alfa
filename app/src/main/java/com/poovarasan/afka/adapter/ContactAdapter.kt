@@ -7,11 +7,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.balysv.materialripple.MaterialRippleLayout
-import com.flipkart.circularImageView.BitmapDrawer
-import com.flipkart.circularImageView.CircularDrawable
-import com.flipkart.circularImageView.TextDrawer
+
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.poovarasan.afka.R
+import com.poovarasan.afka.circularimage.BitmapDrawer
+import com.poovarasan.afka.circularimage.CircularDrawable
+import com.poovarasan.afka.circularimage.TextDrawer
 import com.poovarasan.afka.core.randomColor
 import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.find

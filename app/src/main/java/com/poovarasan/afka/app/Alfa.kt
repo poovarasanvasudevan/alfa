@@ -100,8 +100,8 @@ class Alfa : Application() {
                 .setHostnameVerifier { hostname, session -> true }
                 //.setPort(7555)
                 .build()
-
-
+    
+    
         val builder = Configuration.Builder(this)
                 .customLogger(object : CustomLogger {
                     private val TAG = "JOBS"
@@ -156,8 +156,11 @@ class Alfa : Application() {
         pingManager.registerPingFailedListener {
             reconnect()
         }
-
-
+    
+        val manager = ReconnectionManager.getInstanceFor(xmppConnection)
+        manager.enableAutomaticReconnection()
+    
+    
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(ChatMessageReceiver(), filter)
 

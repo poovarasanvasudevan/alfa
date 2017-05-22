@@ -1,41 +1,42 @@
 package com.poovarasan.afka.fragement
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
-import android.support.v7.widget.LinearLayoutCompat
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.facebook.drawee.view.SimpleDraweeView
-import com.flipkart.circularImageView.BitmapDrawer
-import com.flipkart.circularImageView.CircularDrawable
 import com.kennyc.bottomsheet.BottomSheet
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.poovarasan.afka.R
-import com.poovarasan.afka.activity.util.PhotoPicker
+import com.poovarasan.afka.circularimage.BitmapDrawer
+import com.poovarasan.afka.circularimage.CircularDrawable
 import com.poovarasan.afka.config.Config
 import com.poovarasan.afka.core.*
 import com.poovarasan.afka.job.ProfilePicUploaderJob
+import com.poovarasan.afka.picker.Matisse
+import com.poovarasan.afka.picker.MimeType
+import com.poovarasan.afka.picker.engine.impl.FerescoEngine
 import com.poovarasan.afka.ui.SettingUI
-import com.vansuita.pickimage.bundle.PickSetup
-import com.vansuita.pickimage.dialog.PickImageDialog
-import com.vansuita.pickimage.enums.EPickType
 import com.wangjie.shadowviewhelper.ShadowProperty
 import com.wangjie.shadowviewhelper.ShadowViewDrawable
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk25.listeners.onLongClick
+import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.ctx
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import org.jivesoftware.smackx.vcardtemp.VCardManager
@@ -57,6 +58,7 @@ import java.io.File
 
 class SettingFragment : Fragment() {
 	
+	val GALLERY_PICK = 1520
 	
 	val WRITE_PERMISSION_CALLBACK = object : PermissionCallback {
 		override fun permissionGranted() {
@@ -144,6 +146,7 @@ class SettingFragment : Fragment() {
 					} else {
 						profileImage!!.setImageURI("http://1.bp.blogspot.com/-A61kc6tq7kw/Tpa1PN87EYI/AAAAAAAAAq4/bhsQHHCGmAg/s1600/dennis_ritchie_bw_square.jpg")
 					}
+					
 				}, {
 					profileImage!!.defaultImage()
 				})
@@ -153,53 +156,46 @@ class SettingFragment : Fragment() {
 		
 		
 		profileImage!!.onLongClick {
-
-
+			
+			
 			BottomSheet
-					.Builder(context)
-					.setTitle("Choose Image")
-					//.grid()
-					.setSheet(R.menu.profile_pic_selection)
-					.setListener(object :BottomSheetListener {
-						override fun onSheetItemSelected(p0: BottomSheet, p1: MenuItem?) {
-							startActivity<PhotoPicker>()
+				.Builder(context)
+				.setTitle("Choose Image")
+				//.grid()
+				.setSheet(R.menu.profile_pic_selection)
+				.setListener(object : BottomSheetListener {
+					override fun onSheetItemSelected(p0: BottomSheet, p1: MenuItem?) {
+						when (p1!!.itemId) {
+							R.id.camera_take  -> {
+								
+							}
+							
+							R.id.gallery_take -> {
+								Matisse.from(act)
+									.choose(MimeType.ofAll())
+									.countable(true)
+									.maxSelectable(1)
+									.gridExpectedSize(resources.getDimensionPixelSize(R.dimen.grid_expected_size))
+									.restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+									.thumbnailScale(0.85f)
+									.imageEngine(FerescoEngine())
+									.forResult(GALLERY_PICK)
+								
+								
+							}
 						}
-
-						override fun onSheetDismissed(p0: BottomSheet, p1: Int) {
-
-						}
-
-						override fun onSheetShown(p0: BottomSheet) {
-
-						}
-
-					})
-					.show()
-
-			val setup = PickSetup()
-				.setTitle("Choose Profile Image")
-				.setTitleColor(Color.WHITE)
-				.setBackgroundColor(Color.WHITE)
-				.setProgressText("Loading")
-				.setProgressTextColor(Color.BLACK)
-				.setCancelText("Cancel")
-				.setFlip(true)
-				.setMaxSize(500)
-				.setPickTypes(EPickType.GALLERY, EPickType.CAMERA)
-				.setCameraButtonText("Camera")
-				.setGalleryButtonText("Gallery")
-				.setButtonOrientation(LinearLayoutCompat.HORIZONTAL)
-			
-			
-			
-			PickImageDialog.build(setup)
-				.setOnPickResult { r ->
-					profilePic = r.bitmap
-					storeMyProfilePic(r.bitmap)
-					JOB.addJobInBackground(ProfilePicUploaderJob(NETWORK_PARAMS))
-				}
-					//.show(activity.supportFragmentManager)
-			
+					}
+					
+					override fun onSheetDismissed(p0: BottomSheet, p1: Int) {
+						
+					}
+					
+					override fun onSheetShown(p0: BottomSheet) {
+						
+					}
+					
+				})
+				.show()
 			
 			true
 		}
@@ -207,6 +203,20 @@ class SettingFragment : Fragment() {
 		return view
 	}
 	
+	
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		if (requestCode == GALLERY_PICK && resultCode == Activity.RESULT_OK) {
+			val mSelected = Matisse.obtainResult(data)
+			
+			
+			val bitmap = BitmapFactory.decodeStream(activity.contentResolver.openInputStream(mSelected[0]))
+			profilePic = bitmap
+			storeMyProfilePic(bitmap)
+			JOB.addJobInBackground(ProfilePicUploaderJob(NETWORK_PARAMS))
+			
+		}
+	}
 	
 	private fun storeMyProfilePic(bitmap: Bitmap?) {
 		if (bitmap != null) {
@@ -222,7 +232,7 @@ class SettingFragment : Fragment() {
 	
 	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-		Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults)
 	}
 	
 }

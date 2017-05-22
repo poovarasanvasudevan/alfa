@@ -2,6 +2,7 @@ package com.poovarasan.afka.activity
 
 //import carbon.widget.ViewPager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.poovarasan.afka.adapter.TabAdapter
 import com.poovarasan.afka.base.BaseActivity
 import com.poovarasan.afka.core.getIcon
 import com.poovarasan.afka.ui.HomeUI
+import com.poovarasan.afka.widget.BadgeTabLayout
 import org.jetbrains.anko.find
 import org.jetbrains.anko.setContentView
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
@@ -25,6 +27,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
  */
 
 class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
+	
+	
+	
+	
 	override fun onTabReselected(tab: TabLayout.Tab?) {
 		
 	}
@@ -41,7 +47,7 @@ class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
 	}
 	
-	lateinit var tabLayout: TabLayout
+	lateinit var tabLayout: BadgeTabLayout
 	lateinit var viewPager: ViewPager
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,8 +90,11 @@ class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
 		tabLayout.setupWithViewPager(viewPager)
 		viewPager.offscreenPageLimit = tabLayout.tabCount - 1
 		for (i in 0..tabLayout.tabCount - 1) {
+			//tabLayout.with(i).badge(true).badgeCount(2).icon(icon[i]).build()
 			tabLayout.getTabAt(i)!!.icon = icon[i]
 		}
+		
+		//tabLayout.with(2).badge(true).badgeCount(5).build()
 	}
 	
 	
@@ -95,6 +104,17 @@ class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
 		if (fragments != null) {
 			for (fragment in fragments) {
 				fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
+			}
+		}
+	}
+	
+	
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		val fragments = supportFragmentManager.fragments
+		if (fragments != null) {
+			for (fragment in fragments) {
+				fragment.onActivityResult(requestCode, resultCode, data)
 			}
 		}
 	}

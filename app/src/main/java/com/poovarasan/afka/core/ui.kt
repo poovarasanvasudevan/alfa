@@ -12,7 +12,9 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.pnikosis.materialishprogress.ProgressWheel
+import com.poovarasan.afka.widget.BadgeTabLayout
 import com.poovarasan.afka.widget.CircleImageView
+import com.poovarasan.afka.widget.LoaderTextView
 import com.poovarasan.afka.widget.material.ButtonRectangle
 import org.jetbrains.anko.custom.ankoView
 
@@ -39,7 +41,7 @@ fun ViewManager.materialAppbar(theme: Int = 0, init: AppBarLayout.() -> Unit) = 
 
 
 fun ViewManager.materialTabLayout(theme: Int = 0) = materialTabLayout(theme) {}
-fun ViewManager.materialTabLayout(theme: Int = 0, init: TabLayout.() -> Unit) = ankoView({ TabLayout(it) }, theme, init)
+fun ViewManager.materialTabLayout(theme: Int = 0, init: TabLayout.() -> Unit) = ankoView({ BadgeTabLayout(it) }, theme, init)
 
 fun ViewManager.materialViewPager(theme: Int = 0) = materialViewPager(theme) {}
 fun ViewManager.materialViewPager(theme: Int = 0, init: ViewPager.() -> Unit) = ankoView({ ViewPager(it) }, theme, init)
@@ -67,3 +69,8 @@ fun ViewManager.materialRippleLayout(theme: Int = 0, init: MaterialRippleLayout.
 
 fun ViewManager.materialRecycularview(theme: Int = 0) = materialRecycularview(theme) {}
 fun ViewManager.materialRecycularview(theme: Int = 0, init: RecyclerView.() -> Unit) = ankoView({ RecyclerView(it) }, theme, init)
+
+
+fun ViewManager.loaderText(theme: Int = 0) = loaderText(theme) {}
+fun ViewManager.loaderText(theme: Int = 0, init: LoaderTextView.() -> Unit) = ankoView({ LoaderTextView(it) }, theme, init)
+

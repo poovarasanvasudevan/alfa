@@ -24,12 +24,12 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.facebook.drawee.generic.RoundingParams
 import com.facebook.drawee.view.SimpleDraweeView
-import com.flipkart.circularImageView.BitmapDrawer
-import com.flipkart.circularImageView.CircularDrawable
 import com.mikepenz.iconics.IconicsDrawable
 import com.poovarasan.afka.R
 import com.poovarasan.afka.adapter.ImagePickAdapter
 import com.poovarasan.afka.app.Alfa
+import com.poovarasan.afka.circularimage.BitmapDrawer
+import com.poovarasan.afka.circularimage.CircularDrawable
 import com.poovarasan.afka.config.Config
 import com.poovarasan.afka.storage.Storage
 import com.poovarasan.afka.widget.FerescoProgressBar
@@ -63,6 +63,7 @@ fun Context.ferescoHeirarchy(): GenericDraweeHierarchy {
     val builder = GenericDraweeHierarchyBuilder(resources)
     val hierarchy = builder
             .setFadeDuration(300)
+
             .setProgressBarImage(FerescoProgressBar())
             .build()
 
@@ -81,9 +82,9 @@ fun Context.ferescoHeirarchyWithoutProgress(): GenericDraweeHierarchy {
 
 fun Context.ferescoRoundedHeirarchy(): GenericDraweeHierarchy {
 
-    val color = Color.WHITE
+    val color = color(R.color.colorPrimary)
     val roundingParams = RoundingParams.fromCornersRadius(5f)
-    roundingParams.setBorder(color, 0.4f)
+    roundingParams.setBorder(color, 1f)
     roundingParams.roundAsCircle = true
 
     val hierarchy = ferescoHeirarchy()

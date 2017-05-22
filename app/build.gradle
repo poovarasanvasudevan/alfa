@@ -73,11 +73,9 @@ dependencies {
     compile('com.mikepenz:fastadapter:2.5.2@aar') {
         transitive = true
     }
+    compile 'com.mikepenz:actionitembadge:3.3.1@aar'
     compile 'com.mikepenz:fastadapter-commons:2.5.2@aar'
     compile 'com.mikepenz:fastadapter-extensions:2.5.2@aar'
-
-    compile 'com.github.jrvansuita:PickImage:+'
-    compile 'com.github.flipkart-incubator:circular-image:1.0'
 
     compile group: 'org.igniterealtime.smack', name: 'smack-core', version: '4.2.0'
     compile group: 'org.igniterealtime.smack', name: 'smack-im', version: '4.2.0'

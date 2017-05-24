@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.birbit.android.jobqueue.Job
-import com.birbit.android.jobqueue.Params
 import com.birbit.android.jobqueue.RetryConstraint
 import com.poovarasan.afka.config.Config
 import com.poovarasan.afka.core.*
@@ -25,7 +24,7 @@ import java.io.ByteArrayOutputStream
  * @on 12/5/17 at 12:43 PM
  */
 
-class ProfilePicUploaderJob(params: Params) : Job(params) {
+class ProfilePicUploaderJob : Job(NETWORK_PARAMS) {
 	
 	init {
 		

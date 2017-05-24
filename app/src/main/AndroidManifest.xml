@@ -45,6 +45,11 @@
         <activity android:name=".picker.internal.ui.AlbumPreviewActivity"/>
         <activity android:name=".picker.internal.ui.SelectedPreviewActivity"/>
         <activity android:name=".activity.util.PhotoPicker"/>
+        <activity android:name=".activity.Settings"/>
+        <activity
+                android:name="com.yalantis.ucrop.UCropActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <service android:name=".service.ChatMessageService" android:enabled="true"/>
         <receiver android:name=".receiver.ChatMessageReceiver" android:enabled="true"

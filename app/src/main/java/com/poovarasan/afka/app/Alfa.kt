@@ -28,7 +28,6 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
 import org.jivesoftware.smackx.ping.PingManager
 import org.jivesoftware.smackx.ping.android.ServerPingWithAlarmManager
 import pl.tajchert.nammu.Nammu
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import java.security.KeyStore
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
@@ -71,11 +70,7 @@ class Alfa : Application() {
 
         Prefs.initPrefs(this, "alfa_pref", Context.MODE_PRIVATE)
         Fresco.initialize(this)
-        CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
-                .setDefaultFontPath("font/font.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        )
+        
 
         context = this
         Utils.init(this)

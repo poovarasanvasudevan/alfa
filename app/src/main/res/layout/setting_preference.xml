@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+    <com.yarolegovich.mp.MaterialPreferenceCategory
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            app:mpc_title="Account"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp"
+            app:cardMaxElevation="0dp"
+            app:mpc_title_color="?colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/stat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_summary="Network Usage,Totl Message Sent,Received and Storage Stat"
+                app:mp_icon="@drawable/ic_insert_chart_black_24dp"
+                app:mp_title="Statitics"/>
+
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+    <View style="@style/Divider"/>
+
+    <com.yarolegovich.mp.MaterialPreferenceCategory
+            android:orientation="vertical"
+            app:mpc_title="Settings"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp"
+            app:cardMaxElevation="0dp"
+            app:mpc_title_color="?colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/enable_chat_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_summary="Account and Privacy Related Settings, User Definition"
+                app:mp_icon="@drawable/ic_account_circle_black_24dp"
+                app:mp_title="Account Settings"/>
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/sync_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_summary="Manage Sync of Contacts,Messages and Other Configuration"
+                app:mp_icon="@drawable/ic_sync_black_24dp"
+                app:mp_title="Sync Settings"/>
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/backup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_summary="Backup and Restore of Messages,Images and Video"
+                app:mp_icon="@drawable/ic_backup_black_24dp"
+                app:mp_title="Backup &amp; Restore"/>
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/enable_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_summary="Manage Notification,Snooze notification and Other"
+                app:mp_icon="@drawable/ic_notifications_black_24dp"
+                app:mp_title="Notification Settings"/>
+
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+</android.support.v7.widget.LinearLayoutCompat>

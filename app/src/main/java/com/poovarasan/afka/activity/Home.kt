@@ -17,7 +17,6 @@ import com.poovarasan.afka.ui.HomeUI
 import com.poovarasan.afka.widget.BadgeTabLayout
 import org.jetbrains.anko.find
 import org.jetbrains.anko.setContentView
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 /**
  * Created by poovarasanv on 4/5/17.
@@ -43,9 +42,7 @@ class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
 		viewPager.currentItem = tab!!.position
 	}
 	
-	protected override fun attachBaseContext(newBase: Context) {
-		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
-	}
+	
 	
 	lateinit var tabLayout: BadgeTabLayout
 	lateinit var viewPager: ViewPager

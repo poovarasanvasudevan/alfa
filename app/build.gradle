@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     splits {
@@ -62,7 +63,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     compile 'com.pnikosis:materialish-progress:1.7'
-    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+
     compile "com.mikepenz:iconics-core:2.8.4@aar"
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
     compile 'com.github.wangjiegulu:ShadowViewhelper:1.0.4'
@@ -76,6 +77,8 @@ dependencies {
     compile 'com.mikepenz:actionitembadge:3.3.1@aar'
     compile 'com.mikepenz:fastadapter-commons:2.5.2@aar'
     compile 'com.mikepenz:fastadapter-extensions:2.5.2@aar'
+    compile 'com.github.yalantis:ucrop:2.2.1'
+    compile 'com.yarolegovich:mp:1.0.5'
 
     compile group: 'org.igniterealtime.smack', name: 'smack-core', version: '4.2.0'
     compile group: 'org.igniterealtime.smack', name: 'smack-im', version: '4.2.0'

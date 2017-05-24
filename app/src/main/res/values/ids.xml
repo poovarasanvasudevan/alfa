@@ -13,6 +13,9 @@
     <item name="contactListLayout" type="id"/>
     <item name="contactListFastScroll" type="id"/>
     <item name="contactListFillLayout" type="id"/>
+    <item name="cropView" type="id"/>
+    <item name="contactPrefId" type="id"/>
+    <item name="settingPrefId" type="id"/>
 
 
 

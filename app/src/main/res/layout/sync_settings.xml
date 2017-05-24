@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.yarolegovich.mp.MaterialPreferenceCategory
+            android:layout_width="match_parent"
+            app:mpc_title="Contact Sync"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp"
+            app:cardMaxElevation="0dp"
+            app:mpc_title_color="?colorPrimary"
+            android:layout_height="match_parent">
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+                android:layout_width="match_parent"
+                app:mp_icon="@drawable/ic_access_time_black_24dp"
+                app:mp_title="Last Sync"
+                app:mp_summary="Last Contact Sync Happend Today 8:23 AM"
+                android:layout_height="wrap_content"/>
+
+        <com.yarolegovich.mp.MaterialSwitchPreference
+                android:layout_width="match_parent"
+                app:mp_icon="@drawable/ic_sync_black_24dp"
+                app:mp_title="Contacts Sync"
+                app:mp_default_value="true"
+                android:id="@+id/sync_enable"
+                app:mp_key="contact_sync"
+                app:mp_summary="Sync is Enabled"
+                android:layout_height="wrap_content"/>
+
+
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+</LinearLayout>

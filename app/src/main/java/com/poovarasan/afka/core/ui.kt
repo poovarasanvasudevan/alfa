@@ -27,6 +27,7 @@ import org.jetbrains.anko.custom.ankoView
 
 
 fun ViewManager.materialProgressBar(theme: Int = 0) = materialProgressBar(theme) {}
+
 fun ViewManager.materialProgressBar(theme: Int = 0, init: ProgressWheel.() -> Unit) = ankoView({ ProgressWheel(it) }, theme, init)
 
 
@@ -73,4 +74,3 @@ fun ViewManager.materialRecycularview(theme: Int = 0, init: RecyclerView.() -> U
 
 fun ViewManager.loaderText(theme: Int = 0) = loaderText(theme) {}
 fun ViewManager.loaderText(theme: Int = 0, init: LoaderTextView.() -> Unit) = ankoView({ LoaderTextView(it) }, theme, init)
-

@@ -8,9 +8,11 @@ import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -20,6 +22,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.kennyc.bottomsheet.BottomSheet
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.poovarasan.afka.R
+import com.poovarasan.afka.activity.Settings
 import com.poovarasan.afka.circularimage.BitmapDrawer
 import com.poovarasan.afka.circularimage.CircularDrawable
 import com.poovarasan.afka.config.Config
@@ -31,9 +34,13 @@ import com.poovarasan.afka.picker.engine.impl.FerescoEngine
 import com.poovarasan.afka.ui.SettingUI
 import com.wangjie.shadowviewhelper.ShadowProperty
 import com.wangjie.shadowviewhelper.ShadowViewDrawable
+import com.yalantis.ucrop.UCrop
+import com.yalantis.ucrop.UCropActivity
+import com.yarolegovich.mp.MaterialStandardPreference
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.sdk25.listeners.onLongClick
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.ctx
@@ -61,22 +68,12 @@ class SettingFragment : Fragment() {
 	val GALLERY_PICK = 1520
 	
 	val WRITE_PERMISSION_CALLBACK = object : PermissionCallback {
-		override fun permissionGranted() {
-			storeMyProfilePic(profilePic)
-		}
-		
-		override fun permissionRefused() {
-			toast("Unable to Store Images")
-		}
+		override fun permissionGranted() = storeMyProfilePic(profilePic)
+		override fun permissionRefused() = toast("Unable to Store Images")
 	}
 	val READ_PERMISSION_CALLBACK = object : PermissionCallback {
-		override fun permissionGranted() {
-			activity.processWithPermission(
-				{ profileImage!!.syncProfilePic() },
-				Manifest.permission.READ_EXTERNAL_STORAGE,
-				this
-			)
-		}
+		override fun permissionGranted() = activity.processWithPermission({ profileImage!!.syncProfilePic() }, Manifest.permission.READ_EXTERNAL_STORAGE, this)
+		
 		
 		override fun permissionRefused() {
 			profileImage!!.defaultImage()
@@ -107,9 +104,10 @@ class SettingFragment : Fragment() {
 		
 		val sp = ShadowProperty()
 			.setShadowColor(0x77000000)
-			.setShadowDy(dip2px(activity, 0.5f))
-			.setShadowRadius(dip2px(activity, 1f))
+			.setShadowDy(dip2px(activity, 0.2f))
+			.setShadowRadius(dip2px(activity, 0.5f))
 			.setShadowSide(ShadowProperty.BOTTOM)
+		
 		val sd = ShadowViewDrawable(sp, Color.WHITE, 0f, 0f)
 		ViewCompat.setBackground(accountHeader, sd)
 		ViewCompat.setLayerType(accountHeader, ViewCompat.LAYER_TYPE_SOFTWARE, null)
@@ -118,11 +116,7 @@ class SettingFragment : Fragment() {
 		profileImage!!.hierarchy = context.ferescoRoundedHeirarchy()
 		
 		if (Prefs.contains("profile_pic")) {
-			activity.processWithPermission(
-				{ profileImage!!.syncProfilePic() },
-				Manifest.permission.READ_EXTERNAL_STORAGE,
-				READ_PERMISSION_CALLBACK
-			)
+			activity.processWithPermission({ profileImage!!.syncProfilePic() }, Manifest.permission.READ_EXTERNAL_STORAGE, READ_PERMISSION_CALLBACK)
 		} else {
 			doAsync {
 				context.internetAvailable({
@@ -147,13 +141,17 @@ class SettingFragment : Fragment() {
 						profileImage!!.setImageURI("http://1.bp.blogspot.com/-A61kc6tq7kw/Tpa1PN87EYI/AAAAAAAAAq4/bhsQHHCGmAg/s1600/dennis_ritchie_bw_square.jpg")
 					}
 					
-				}, {
-					profileImage!!.defaultImage()
-				})
-				
+				}, { profileImage!!.defaultImage() })
 			}
 		}
 		
+		val prefLayout = view.find<View>(R.id.contactPrefId)
+		
+		prefLayout.find<MaterialStandardPreference>(R.id.sync_settings).onClick {
+			val intent = Intent(activity, Settings::class.java)
+			intent.putExtra(Config.SETTING_INTENT, Config.SYNC_UI)
+			startActivity(intent)
+		}
 		
 		profileImage!!.onLongClick {
 			
@@ -171,7 +169,8 @@ class SettingFragment : Fragment() {
 							}
 							
 							R.id.gallery_take -> {
-								Matisse.from(act)
+								Matisse
+									.from(act)
 									.choose(MimeType.ofAll())
 									.countable(true)
 									.maxSelectable(1)
@@ -180,8 +179,6 @@ class SettingFragment : Fragment() {
 									.thumbnailScale(0.85f)
 									.imageEngine(FerescoEngine())
 									.forResult(GALLERY_PICK)
-								
-								
 							}
 						}
 					}
@@ -209,13 +206,36 @@ class SettingFragment : Fragment() {
 		if (requestCode == GALLERY_PICK && resultCode == Activity.RESULT_OK) {
 			val mSelected = Matisse.obtainResult(data)
 			
+			val options = UCrop.Options()
+			options.setStatusBarColor(context.color(R.color.colorPrimaryDark))
+			options.setToolbarColor(context.color(R.color.colorPrimary))
+			options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL)
+			options.setImageToCropBoundsAnimDuration(666)
+			options.setShowCropFrame(true)
 			
-			val bitmap = BitmapFactory.decodeStream(activity.contentResolver.openInputStream(mSelected[0]))
-			profilePic = bitmap
-			storeMyProfilePic(bitmap)
-			JOB.addJobInBackground(ProfilePicUploaderJob(NETWORK_PARAMS))
+			UCrop
+				.of(mSelected[0], Uri.fromFile(File(context.cacheDir, "me.png")))
+				.withAspectRatio(1f, 1f)
+				.withOptions(options)
+				.start(activity)
+			
 			
 		}
+		
+		if (resultCode == Activity.RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+			val resultUri = UCrop.getOutput(data!!)
+			val bitmap = BitmapFactory.decodeStream(activity.contentResolver.openInputStream(resultUri))
+			profilePic = bitmap
+			storeMyProfilePic(bitmap)
+			JOB.addJobInBackground(ProfilePicUploaderJob())
+			
+		} else if (resultCode == UCrop.RESULT_ERROR) {
+			val cropError = UCrop.getError(data!!)
+			if (cropError != null) {
+				Log.e("CROP", "handleCropError: ", cropError)
+			}
+		}
+		
 	}
 	
 	private fun storeMyProfilePic(bitmap: Bitmap?) {

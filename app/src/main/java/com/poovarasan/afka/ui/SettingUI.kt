@@ -1,6 +1,7 @@
 package com.poovarasan.afka.ui
 
 import android.graphics.Color
+import android.view.View
 import com.poovarasan.afka.R
 import com.poovarasan.afka.core.ferescoImage
 import com.poovarasan.afka.core.loaderText
@@ -8,18 +9,14 @@ import org.jetbrains.anko.*
 
 /**
  * Created by poovarasanv on 4/5/17.
- 
  * @author poovarasanv
- * *
  * @project Afka
- * *
  * @on 4/5/17 at 3:05 PM
  */
 
 class SettingUI<T> : AnkoComponent<T> {
 	override fun createView(ui: AnkoContext<T>) = with(ui) {
-		relativeLayout {
-			
+		verticalLayout {
 			relativeLayout {
 				id = R.id.accountHeader
 				backgroundColor = Color.WHITE
@@ -73,7 +70,16 @@ class SettingUI<T> : AnkoComponent<T> {
 				}
 			}
 			
-			
+			scrollView {
+				relativeLayout {
+					include<View>(R.layout.setting_preference) {
+						id = R.id.contactPrefId
+					}.lparams(width = matchParent, height = matchParent)
+					
+					lparams(width = matchParent, height = matchParent)
+				}
+				lparams(width = matchParent, height = matchParent)
+			}
 			
 			lparams(width = matchParent, height = matchParent)
 		}

@@ -23,6 +23,7 @@ import com.kennyc.bottomsheet.BottomSheet
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.poovarasan.afka.R
 import com.poovarasan.afka.activity.Settings
+import com.poovarasan.afka.activity.util.CameraPicker
 import com.poovarasan.afka.circularimage.BitmapDrawer
 import com.poovarasan.afka.circularimage.CircularDrawable
 import com.poovarasan.afka.config.Config
@@ -44,6 +45,7 @@ import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.sdk25.listeners.onLongClick
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import org.jivesoftware.smackx.vcardtemp.VCardManager
@@ -78,6 +80,17 @@ class SettingFragment : Fragment() {
 		override fun permissionRefused() {
 			profileImage!!.defaultImage()
 			toast("Unable to Read Images")
+		}
+		
+	}
+	
+	val READ_PERMISSION_CALLBACK_OPEN = object : PermissionCallback {
+		override fun permissionGranted() {
+			openFilePicker()
+		}
+		
+		override fun permissionRefused() {
+			toast("Permission Denied, Unable to Open Image Picker")
 		}
 		
 	}
@@ -159,26 +172,18 @@ class SettingFragment : Fragment() {
 			BottomSheet
 				.Builder(context)
 				.setTitle("Choose Image")
-				//.grid()
 				.setSheet(R.menu.profile_pic_selection)
 				.setListener(object : BottomSheetListener {
 					override fun onSheetItemSelected(p0: BottomSheet, p1: MenuItem?) {
 						when (p1!!.itemId) {
 							R.id.camera_take  -> {
-								
+								startActivity<CameraPicker>()
 							}
 							
 							R.id.gallery_take -> {
-								Matisse
-									.from(act)
-									.choose(MimeType.ofAll())
-									.countable(true)
-									.maxSelectable(1)
-									.gridExpectedSize(resources.getDimensionPixelSize(R.dimen.grid_expected_size))
-									.restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-									.thumbnailScale(0.85f)
-									.imageEngine(FerescoEngine())
-									.forResult(GALLERY_PICK)
+								activity.processWithPermission({
+									openFilePicker()
+								}, Manifest.permission.READ_EXTERNAL_STORAGE, READ_PERMISSION_CALLBACK_OPEN)
 							}
 						}
 					}
@@ -200,6 +205,18 @@ class SettingFragment : Fragment() {
 		return view
 	}
 	
+	fun openFilePicker() {
+		Matisse
+			.from(act)
+			.choose(MimeType.ofAll())
+			.countable(true)
+			.maxSelectable(1)
+			.gridExpectedSize(resources.getDimensionPixelSize(R.dimen.grid_expected_size))
+			.restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+			.thumbnailScale(0.85f)
+			.imageEngine(FerescoEngine())
+			.forResult(GALLERY_PICK)
+	}
 	
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)

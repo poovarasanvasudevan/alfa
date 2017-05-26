@@ -1,5 +1,6 @@
 package com.poovarasan.afka.ui
 
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import com.poovarasan.afka.R
@@ -12,11 +13,8 @@ import org.jetbrains.anko.*
 
 /**
  * Created by poovarasanv on 23/5/17.
- 
  * @author poovarasanv
- * *
  * @project Afka
- * *
  * @on 23/5/17 at 3:15 PM
  */
 
@@ -28,17 +26,20 @@ class SettingsUI(val uiType: Int) : AnkoComponent<Settings> {
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 					elevation = dip(4).toFloat()
 				}
-				
-				
+								
 				materialToolbar(theme = R.style.ThemeOverlay_AppCompat_Dark_ActionBar) {
 					lparams(width = matchParent, height = matchParent)
 					backgroundColor = context.color(R.color.colorPrimary)
 					id = R.id.toolbar
 					popupTheme = R.style.ThemeOverlay_AppCompat_Light
+					
+					when (uiType) {
+						Config.SYNC_UI -> title = "Sync Settings"
+					}
 				}
 			}
 			
-			relativeLayout {
+			scrollView {
 				when (uiType) {
 					Config.SYNC_UI -> {
 						include<View>(R.layout.sync_settings) {
@@ -47,6 +48,9 @@ class SettingsUI(val uiType: Int) : AnkoComponent<Settings> {
 					}
 					
 				}
+				
+				backgroundColor = Color.WHITE
+				lparams(width = matchParent, height = matchParent)
 			}
 		}
 	}

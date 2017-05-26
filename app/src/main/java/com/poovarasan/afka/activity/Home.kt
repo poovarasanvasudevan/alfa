@@ -1,7 +1,6 @@
 package com.poovarasan.afka.activity
 
 //import carbon.widget.ViewPager
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -114,5 +113,12 @@ class Home : BaseActivity(), TabLayout.OnTabSelectedListener {
 				fragment.onActivityResult(requestCode, resultCode, data)
 			}
 		}
+	}
+	
+	
+	
+	override fun onDestroy() {
+		super.onDestroy()
+		
 	}
 }

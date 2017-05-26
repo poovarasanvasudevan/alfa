@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.poovarasan.afka.service.XMPPService
-import org.jetbrains.anko.toast
 
 /**
  * Created by poovarasanv on 9/5/17.
@@ -17,10 +16,8 @@ import org.jetbrains.anko.toast
  */
 
 class ChatMessageReceiver : BroadcastReceiver() {
-	
 	override fun onReceive(context: Context, intent: Intent) {
 		val intent1 = Intent(context, XMPPService::class.java)
 		context.startService(intent1)
-		context.toast("Service Started")
 	}
 }

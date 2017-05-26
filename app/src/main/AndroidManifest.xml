@@ -38,13 +38,13 @@
         </activity>
         <activity android:name=".activity.Login"/>
         <activity android:name=".activity.Home"/>
+        <activity android:name=".activity.util.CameraPicker"/>
         <activity android:name=".ssl.MemorizingActivity"
                   android:theme="@android:style/Theme.Translucent.NoTitleBar"
         />
         <activity android:name=".picker.ui.MatisseActivity"/>
         <activity android:name=".picker.internal.ui.AlbumPreviewActivity"/>
         <activity android:name=".picker.internal.ui.SelectedPreviewActivity"/>
-        <activity android:name=".activity.util.PhotoPicker"/>
         <activity android:name=".activity.Settings"/>
         <activity
                 android:name="com.yalantis.ucrop.UCropActivity"
@@ -56,15 +56,23 @@
                   android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="com.poovarasan.afka.RestartService"/>
             </intent-filter>
         </receiver>
         <receiver android:name=".receiver.MessageReceiver" android:exported="true"
                   android:enabled="true">
             <intent-filter>
-                <action android:name="com.poovarasan.afka.Message"/>
+                <action android:name="com.poovarasan.afka.MESSAGE_RECEIVED"/>
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".receiver.ServiceReconnector" android:exported="true" android:enabled="true">
+            <intent-filter>
+                <action android:name="com.poovarasan.alfa.RECONNECT" />
+            </intent-filter>
+        </receiver>
+
         <service android:name=".service.AuthenticationService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
@@ -85,6 +93,15 @@
             <meta-data
                     android:name="android.provider.CONTACTS_STRUCTURE"
                     android:resource="@xml/contacts"/>
+        </service>
+
+        <service android:name=".service.JobSchedulerService"
+                 android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service android:name=".service.GCMJobSchedulerService" android:exported="true"
+                 android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY"/>
+            </intent-filter>
         </service>
     </application>
 

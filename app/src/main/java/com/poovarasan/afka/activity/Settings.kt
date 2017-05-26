@@ -9,6 +9,7 @@ import com.poovarasan.afka.base.BaseActivity
 import com.poovarasan.afka.config.Config
 import com.poovarasan.afka.core.color
 import com.poovarasan.afka.ui.SettingsUI
+import com.yarolegovich.mp.MaterialChoicePreference
 import com.yarolegovich.mp.MaterialSwitchPreference
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk25.listeners.onClick
@@ -41,23 +42,34 @@ class Settings : BaseActivity() {
 		when (prefScreen) {
 			Config.SYNC_UI -> {
 				val sync_enable = pref.find<MaterialSwitchPreference>(R.id.sync_enable)
-				if (sync_enable.value) sync_enable.setSummary("Sync is Enabled") else sync_enable.setSummary("Sync is Disabled")
-				
-				
+				val sync_contact_time = pref.find<MaterialChoicePreference>(R.id.sync_contact_time)
+				if (sync_enable.value) {
+					sync_enable.setSummary(getString(R.string.sync_enabled))
+					sync_contact_time.isEnabled = true
+					sync_contact_time.setBackgroundColor(Color.WHITE)
+				} else {
+					sync_enable.setSummary(getString(R.string.sync_disabled))
+					sync_contact_time.isEnabled = false
+					sync_contact_time.setBackgroundColor(Color.parseColor("#EAEAEA"))
+				}
 			}
 		}
 	}
 	
 	fun syncUI() {
-		
 		val sync_enable = pref.find<MaterialSwitchPreference>(R.id.sync_enable)
+		val sync_contact_time = pref.find<MaterialChoicePreference>(R.id.sync_contact_time)
 		sync_enable.onClick {
 			if (sync_enable.value) {
-				sync_enable.setSummary("Sync is Enabled")
-				SnackbarUtils.showShort(it,"Contact Sync Enabled", Color.WHITE,color(R.color.md_green_400))
+				sync_enable.setSummary(getString(R.string.sync_enabled))
+				sync_contact_time.isEnabled = true
+				sync_contact_time.setBackgroundColor(Color.WHITE)
+				SnackbarUtils.showShort(it, "Contact Sync Enabled", Color.WHITE, color(R.color.md_green_400))
 			} else {
-				sync_enable.setSummary("Sync is Disabled")
-				SnackbarUtils.showShort(it,"Contact Sync Disabled", Color.WHITE,color(R.color.md_red_400))
+				sync_enable.setSummary(getString(R.string.sync_disabled))
+				sync_contact_time.isEnabled = false
+				sync_contact_time.setBackgroundColor(Color.parseColor("#EAEAEA"))
+				SnackbarUtils.showShort(it, "Contact Sync Disabled", Color.WHITE, color(R.color.md_red_400))
 			}
 		}
 	}

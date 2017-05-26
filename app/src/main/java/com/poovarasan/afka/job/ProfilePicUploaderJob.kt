@@ -58,7 +58,7 @@ class ProfilePicUploaderJob : Job(NETWORK_PARAMS) {
 				
 			}catch (e:Exception) {
 				if (e is SmackException.NoResponseException) {
-					applicationContext.reconnect()
+					reconnect()
 				}
 			}
 			

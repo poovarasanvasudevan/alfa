@@ -1,16 +1,18 @@
 package com.poovarasan.afka.base
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v4.view.LayoutInflaterCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import com.mikepenz.iconics.context.IconicsLayoutInflater
 import com.poovarasan.afka.R
+import com.poovarasan.afka.core.isMyServiceRunning
+import com.poovarasan.afka.service.XMPPService
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startService
 
 
 /**
@@ -33,7 +35,6 @@ open class BaseActivity : AppCompatActivity() {
 		LayoutInflaterCompat.setFactory(layoutInflater, IconicsLayoutInflater(delegate))
 		super.onCreate(savedInstanceState)
 		
-		
 	}
 	
 	override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -53,20 +54,23 @@ open class BaseActivity : AppCompatActivity() {
 	
 	override fun onDestroy() {
 		super.onDestroy()
-		Log.i("Service", "Service Stopped Main")
-		val broadcastIntent = Intent("com.poovarasan.afka.RestartService")
-		sendBroadcast(broadcastIntent)
+				
+		if (!isMyServiceRunning(XMPPService::class.java)) {
+			startService<XMPPService>()
+		}
 	}
 	
 	override fun onPause() {
 		super.onPause()
-		
+	}
+	
+	override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+		return super.onCreateOptionsMenu(menu)
 	}
 	
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		// handle arrow click here
 		if (item.itemId == android.R.id.home) {
-			finish() // close this activity and return to preview activity (if there is any)
+			finish()
 		}
 		
 		return super.onOptionsItemSelected(item)
@@ -74,7 +78,6 @@ open class BaseActivity : AppCompatActivity() {
 	
 	override fun onResume() {
 		super.onResume()
-		Log.i("Service123", "resume")
 	}
 	
 	

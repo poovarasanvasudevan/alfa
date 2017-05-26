@@ -9,6 +9,8 @@ import com.poovarasan.afka.core.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.sdk25.listeners.onClick
+import org.jivesoftware.smackx.iqregister.AccountManager
+import org.jxmpp.jid.parts.Localpart
 
 /**
  * Created by poovarasanv on 4/5/17.
@@ -35,44 +37,44 @@ class LoginUI : AnkoComponent<Login> {
 					backgroundColor = context.color(R.color.colorPrimary)
 					id = R.id.toolbar
 					popupTheme = R.style.ThemeOverlay_AppCompat_Light
-					title="Login"
+					title = "Login"
 				}
 			}
 			
 			relativeLayout {
 				cardView {
 					verticalLayout {
-					
+						
 						materialButton {
-							textColor=Color.WHITE
+							textColor = Color.WHITE
 							backgroundColor = Color.parseColor("#3b5998")
-						//	setBackgroundTint(Color.parseColor("#3b5998"))
+							//	setBackgroundTint(Color.parseColor("#3b5998"))
 							text = "Login with facebook"
 							
 							onClick {
-							
+								
 								doAsync {
 									
 									context.internetAvailable({
-										val conn2 = xmppConnect()
-										if(conn2.isConnected)conn2.disconnect()
-										if(!conn2.isConnected) conn2.connect()
-										
-										conn2.login("poosan","poosan")
-										
+										try {
+											val xmpp = XMPPFactory.connect(context, "poosan", "poosan")
+											
+										} catch(e: Exception) {
+											val xmpp = XMPPFactory.getXmpptcpConnection(context)
+											val AccManager = AccountManager.getInstance(xmpp)
+											AccManager.createAccount(Localpart.from("poosan"), "poosan")
+											xmpp.login("poosan", "poosan")
+										}
 										uiThread {
-											if(conn2.isAuthenticated) {
-												
-												Prefs.putString("username","poosan")
-												Prefs.putString("password","poosan")
-												
+											val xmpp = XMPPFactory.getXmpptcpConnection(context)
+											if (xmpp.isAuthenticated) {
 												startActivity<Home>();
 											} else {
 												toast("Not Authenticated")
 											}
 										}
 										
-									},{
+									}, {
 										toast("Internet Not Available")
 									})
 									

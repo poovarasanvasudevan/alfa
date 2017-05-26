@@ -18,5 +18,7 @@ import org.jetbrains.anko.toast
 class MessageReceiver : BroadcastReceiver() {
 	override fun onReceive(context: Context, intent: Intent) {
 		context.toast(intent.getStringExtra("message"))
+		
+		//add DB Logics
 	}
 }

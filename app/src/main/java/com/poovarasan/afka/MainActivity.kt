@@ -8,6 +8,7 @@ import com.poovarasan.afka.core.Prefs
 import com.poovarasan.afka.core.XMPPFactory
 import com.poovarasan.afka.core.internetAvailable
 import com.poovarasan.afka.core.isMyServiceRunning
+import com.poovarasan.afka.service.OnTaskRemoveService
 import com.poovarasan.afka.service.XMPPService
 import com.poovarasan.afka.ui.MainActivityUI
 import org.jetbrains.anko.*
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		MainActivityUI().setContentView(this)
 		
-		
+		startService<OnTaskRemoveService>()
 		
 		if (!isMyServiceRunning(XMPPService::class.java)) {
 			startService<XMPPService>()

@@ -1,13 +1,12 @@
 package com.poovarasan.afka.database
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.*
 import android.content.Context
 import com.poovarasan.afka.dao.MessageDAO
 import com.poovarasan.afka.dao.UserDAO
 import com.poovarasan.afka.model.Messages
 import com.poovarasan.afka.model.User
+import java.util.*
 
 
 /**
@@ -21,6 +20,7 @@ import com.poovarasan.afka.model.User
  */
 
 @Database(entities = arrayOf(Messages::class, User::class), version = 1)
+@TypeConverters(DateConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 	abstract fun messageDao(): MessageDAO
 	abstract fun userDao(): UserDAO
@@ -38,6 +38,18 @@ abstract class AppDatabase : RoomDatabase() {
 		@JvmStatic fun destroyInstance() {
 			INSTANCE = null
 		}
+	}
+}
+
+class DateConverters {
+	@TypeConverter
+	fun fromTimestamp(value: Long?): Date? {
+		return if (value == null) null else Date(value)
+	}
+	
+	@TypeConverter
+	fun dateToTimestamp(date: Date?): Long {
+		return (if (date == null) null else date.getTime())!!.toLong()
 	}
 }
 

@@ -32,7 +32,7 @@ class XMPPChatMessageListener : StanzaListener {
 				val user = CONTEXT.db.userDao().getUser(message.from.toString().split("@")[0])
 				if (user == null) {
 					val inUser = User()
-					inUser.JID = message.from.toString()
+					inUser.JID = message.from.toString().split("@")[0]
 					inUser.createdDate = System.currentTimeMillis()
 					inUser.isInContactList = contactExists(message.from.toString().split("@")[0])
 					CONTEXT.db.userDao().insertUser(inUser)

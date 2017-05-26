@@ -2,6 +2,7 @@ package com.poovarasan.afka.dao
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.poovarasan.afka.model.User
 
@@ -24,6 +25,6 @@ interface UserDAO {
 	@Query("select * from user where jid = :p0 limit 1")
 	fun getUser(jid: String): User?
 	
-	@Insert
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	fun insertUser(user: User)
 }

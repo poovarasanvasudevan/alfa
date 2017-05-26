@@ -21,6 +21,10 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.filetransfer.FileTransferListener;
+import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
+import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
 import org.jivesoftware.smackx.ping.PingManager;
 import org.jivesoftware.smackx.ping.android.ServerPingWithAlarmManager;
 import org.jxmpp.jid.EntityBareJid;
@@ -89,6 +93,15 @@ public class XMPPFactory {
 
             ReconnectionManager manager = ReconnectionManager.getInstanceFor(xmpptcpConnection);
             manager.enableAutomaticReconnection();
+
+
+            FileTransferManager fileTransferManager = FileTransferManager.getInstanceFor(xmpptcpConnection);
+            fileTransferManager.addFileTransferListener(new FileTransferListener() {
+                @Override
+                public void fileTransferRequest(FileTransferRequest request) {
+                    IncomingFileTransfer transfer = request.accept();
+                }
+            });
 
         }
 

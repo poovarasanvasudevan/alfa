@@ -34,7 +34,8 @@ class OnTaskRemoveService : Service() {
 	override fun onTaskRemoved(rootIntent: Intent?) {
 		Log.i("TASKREMOVE","task removed ex")
 		
-		//todo add code
+		//todo add code {android.os.Intent}
+		
 	}
 	
 	

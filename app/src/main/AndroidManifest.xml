@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.poovarasan.afka">
+
+    <uses-sdk tools:overrideLibrary="it.slyce.messaging" />
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
@@ -22,9 +25,9 @@
     <application
             android:allowBackup="true"
             android:name=".app.Alfa"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/messenger"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
+            android:roundIcon="@drawable/messenger"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:fullBackupContent="true">
@@ -38,6 +41,7 @@
         </activity>
         <activity android:name=".activity.Login"/>
         <activity android:name=".activity.Home"/>
+        <activity android:name=".activity.Chat"/>
         <activity android:name=".activity.util.CameraPicker"/>
         <activity android:name=".ssl.MemorizingActivity"
                   android:theme="@android:style/Theme.Translucent.NoTitleBar"

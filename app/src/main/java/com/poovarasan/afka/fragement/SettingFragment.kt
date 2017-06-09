@@ -45,7 +45,7 @@ import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.sdk25.listeners.onLongClick
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.ctx
-import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import org.jivesoftware.smackx.vcardtemp.VCardManager
@@ -53,6 +53,7 @@ import org.jivesoftware.smackx.vcardtemp.packet.VCard
 import pl.tajchert.nammu.Nammu
 import pl.tajchert.nammu.PermissionCallback
 import java.io.File
+import java.io.FileOutputStream
 
 
 /**
@@ -68,6 +69,7 @@ import java.io.File
 class SettingFragment : Fragment() {
 	
 	val GALLERY_PICK = 1520
+	val CAMERA_PICK = 1521
 	
 	val WRITE_PERMISSION_CALLBACK = object : PermissionCallback {
 		override fun permissionGranted() = storeMyProfilePic(profilePic)
@@ -84,6 +86,16 @@ class SettingFragment : Fragment() {
 		
 	}
 	
+	
+	val CAMERA_PERMISSION_CALLBACK = object : PermissionCallback {
+		override fun permissionRefused() {
+			toast("Permission Refused, Unable to Open camera")
+		}
+		
+		override fun permissionGranted() {
+			openCamera()
+		}
+	}
 	val READ_PERMISSION_CALLBACK_OPEN = object : PermissionCallback {
 		override fun permissionGranted() {
 			openFilePicker()
@@ -166,6 +178,12 @@ class SettingFragment : Fragment() {
 			startActivity(intent)
 		}
 		
+		prefLayout.find<MaterialStandardPreference>(R.id.backup).onClick {
+			val intent = Intent(activity, Settings::class.java)
+			intent.putExtra(Config.SETTING_INTENT, Config.BACKUP_UI)
+			startActivity(intent)
+		}
+		
 		profileImage!!.onLongClick {
 			
 			
@@ -177,7 +195,7 @@ class SettingFragment : Fragment() {
 					override fun onSheetItemSelected(p0: BottomSheet, p1: MenuItem?) {
 						when (p1!!.itemId) {
 							R.id.camera_take  -> {
-								startActivity<CameraPicker>()
+								activity.processWithPermission({ openCamera() }, Manifest.permission.CAMERA, CAMERA_PERMISSION_CALLBACK)
 							}
 							
 							R.id.gallery_take -> {
@@ -203,6 +221,10 @@ class SettingFragment : Fragment() {
 		}
 		
 		return view
+	}
+	
+	fun openCamera() {
+		startActivityForResult<CameraPicker>(CAMERA_PICK)
 	}
 	
 	fun openFilePicker() {
@@ -239,13 +261,41 @@ class SettingFragment : Fragment() {
 			
 		}
 		
+		if (requestCode == CAMERA_PICK && resultCode == Activity.RESULT_OK) {
+			val imageUri = data!!.getByteArrayExtra("IMAGE_BYTE")
+			val f =  File(context.getCacheDir(), "temp.png");
+			f.createNewFile()
+			val fos = FileOutputStream(f)
+			fos.write(imageUri)
+			fos.flush()
+			fos.close()
+			val imageURI = Uri.fromFile(File(context.cacheDir, "temp.png"))
+			
+			val options = UCrop.Options()
+			options.setStatusBarColor(context.color(R.color.colorPrimaryDark))
+			options.setToolbarColor(context.color(R.color.colorPrimary))
+			options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL)
+			options.setImageToCropBoundsAnimDuration(666)
+			options.setShowCropFrame(true)
+			
+			UCrop
+				.of(imageURI, Uri.fromFile(File(context.cacheDir, "me.png")))
+				.withAspectRatio(1f, 1f)
+				.withOptions(options)
+				.start(activity)
+			
+		}
+		
 		if (resultCode == Activity.RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
 			val resultUri = UCrop.getOutput(data!!)
 			val bitmap = BitmapFactory.decodeStream(activity.contentResolver.openInputStream(resultUri))
 			profilePic = bitmap
 			storeMyProfilePic(bitmap)
 			JOB.addJobInBackground(ProfilePicUploaderJob())
-			
+			val f =  File(context.getCacheDir(), "temp.png")
+			if(f.exists()) {
+				f.delete()
+			}
 		} else if (resultCode == UCrop.RESULT_ERROR) {
 			val cropError = UCrop.getError(data!!)
 			if (cropError != null) {

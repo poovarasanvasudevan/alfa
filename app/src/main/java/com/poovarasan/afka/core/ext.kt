@@ -3,6 +3,7 @@ package com.poovarasan.afka.core
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -86,6 +87,25 @@ fun Context.ferescoHeirarchy(): GenericDraweeHierarchy {
 	return hierarchy
 }
 
+@JvmOverloads fun Context.reboot(restartIntent: Intent = this.packageManager.getLaunchIntentForPackage(this.packageName)) {
+	restartIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+	if (this is Activity) {
+		this.startActivity(restartIntent)
+		finishAffinity(this)
+	} else {
+		restartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+		this.startActivity(restartIntent)
+	}
+}
+
+private fun finishAffinity(activity: Activity) {
+	activity.setResult(Activity.RESULT_CANCELED)
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		activity.finishAffinity()
+	} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+		activity.runOnUiThread { activity.finishAffinity() }
+	}
+}
 
 fun Context.ferescoHeirarchyWithoutProgress(): GenericDraweeHierarchy {
 	val builder = GenericDraweeHierarchyBuilder(resources)

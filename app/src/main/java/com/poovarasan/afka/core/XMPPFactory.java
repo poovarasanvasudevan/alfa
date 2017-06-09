@@ -73,6 +73,7 @@ public class XMPPFactory {
 
                         }
                     });
+
             ChatManager.getInstanceFor(xmpptcpConnection)
                     .addIncomingListener(new IncomingChatMessageListener() {
                         @Override
@@ -100,6 +101,7 @@ public class XMPPFactory {
                 @Override
                 public void fileTransferRequest(FileTransferRequest request) {
                     IncomingFileTransfer transfer = request.accept();
+                    Log.i("ProgressBar", "Progress Sixe : " + transfer.getProgress());
                 }
             });
 
@@ -116,13 +118,17 @@ public class XMPPFactory {
             try {
                 xmpptcpConnection.connect();
             } catch (SmackException.AlreadyConnectedException e) {
-                Log.i("XMPP","Client Already Connected");
+                Log.i("XMPP", "Client Already Connected");
             }
         }
 
         if (!xmpptcpConnection.isAuthenticated()) {
             if (Prefs.INSTANCE.contains("username") && Prefs.INSTANCE.contains("password")) {
-                xmpptcpConnection.login(Prefs.INSTANCE.getString("username", ""), Prefs.INSTANCE.getString("password", ""));
+                try {
+                    xmpptcpConnection.login(Prefs.INSTANCE.getString("username", ""), Prefs.INSTANCE.getString("password", ""));
+                } catch (SmackException.AlreadyLoggedInException e) {
+                    Log.i("XMPP", "Client Already loged IN");
+                }
             } else {
                 xmpptcpConnection.login(username, password);
 

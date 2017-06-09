@@ -7,6 +7,22 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
+        <!--<item name="android:scrollbarSize">4dp</item>-->
+        <!--<item name="android:scrollbarThumbVertical">@color/colorPrimary</item>-->
+
+
+    </style>
+
+    <style name="ActionBarTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="windowActionModeOverlay">true</item>
+        <!--<item name="android:scrollbarSize">4dp</item>-->
+        <!--<item name="android:scrollbarThumbVertical">@color/colorPrimary</item>-->
+
+
     </style>
     <style name="Matisse.Zhihu" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/zhihu_primary</item>
@@ -58,7 +74,6 @@
     </style>
 
     <style name="Toolbar.Dracula" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-
     </style>
 
     <style name="Popup.Dracula" parent="Widget.AppCompat.ListPopupWindow">

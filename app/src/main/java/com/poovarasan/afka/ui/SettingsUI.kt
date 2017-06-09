@@ -35,6 +35,7 @@ class SettingsUI(val uiType: Int) : AnkoComponent<Settings> {
 					
 					when (uiType) {
 						Config.SYNC_UI -> title = "Sync Settings"
+						Config.BACKUP_UI -> title = "Backup Settings"
 					}
 				}
 			}
@@ -43,6 +44,12 @@ class SettingsUI(val uiType: Int) : AnkoComponent<Settings> {
 				when (uiType) {
 					Config.SYNC_UI -> {
 						include<View>(R.layout.sync_settings) {
+							id = R.id.settingPrefId
+						}.lparams(width = matchParent, height = matchParent)
+					}
+					
+					Config.BACKUP_UI -> {
+						include<View>(R.layout.backup_settings) {
 							id = R.id.settingPrefId
 						}.lparams(width = matchParent, height = matchParent)
 					}

@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.SurfaceView
 import android.view.ViewManager
 import android.widget.Button
 import com.balysv.materialripple.MaterialRippleLayout
@@ -16,6 +17,8 @@ import com.poovarasan.afka.widget.BadgeTabLayout
 import com.poovarasan.afka.widget.CircleImageView
 import com.poovarasan.afka.widget.LoaderTextView
 import com.poovarasan.afka.widget.material.ButtonRectangle
+import com.poovarasan.chatkit.messages.MessageInput
+import com.poovarasan.chatkit.messages.MessagesList
 import org.jetbrains.anko.custom.ankoView
 
 /**
@@ -74,3 +77,15 @@ fun ViewManager.materialRecycularview(theme: Int = 0, init: RecyclerView.() -> U
 
 fun ViewManager.loaderText(theme: Int = 0) = loaderText(theme) {}
 fun ViewManager.loaderText(theme: Int = 0, init: LoaderTextView.() -> Unit) = ankoView({ LoaderTextView(it) }, theme, init)
+
+
+fun ViewManager.cameraView(theme: Int = 0) = cameraView(theme) {}
+fun ViewManager.cameraView(theme: Int = 0, init: SurfaceView.() -> Unit) = ankoView({ SurfaceView(it) }, theme, init)
+
+
+fun ViewManager.messageList(theme: Int = 0) = messageList(theme) {}
+fun ViewManager.messageList(theme: Int = 0, init: MessagesList.() -> Unit) = ankoView({ MessagesList(it) }, theme, init)
+
+
+fun ViewManager.messageInput(theme: Int = 0) = messageInput(theme) {}
+fun ViewManager.messageInput(theme: Int = 0, init: MessageInput.() -> Unit) = ankoView({ MessageInput(it) }, theme, init)

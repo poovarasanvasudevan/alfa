@@ -22,7 +22,7 @@
                 android:id="@+id/stat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:mp_summary="Network Usage,Totl Message Sent,Received and Storage Stat"
+                app:mp_summary="Network Usage,Total Message Sent,Received and Storage Stat"
                 app:mp_icon="@drawable/ic_insert_chart_black_24dp"
                 app:mp_title="Statitics"/>
 

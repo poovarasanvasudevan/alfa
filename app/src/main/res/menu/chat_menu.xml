@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/call"
+          android:title="Call"
+          android:icon="@drawable/ic_call_white_24dp"
+          app:showAsAction="always"/>
+    <item android:id="@+id/vcall"
+          android:title="Video Call"
+          android:icon="@drawable/ic_video_call_white_24dp"
+          app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/uSettings"
+            android:title="Settings"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/mute"
+            android:title="Mute"
+            app:showAsAction="never"/>
+
+    <item
+            android:id="@+id/block"
+            android:title="Block"
+            app:showAsAction="never"/>
+</menu>

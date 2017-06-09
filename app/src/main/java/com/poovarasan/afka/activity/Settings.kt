@@ -28,13 +28,14 @@ class Settings : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		
-		prefScreen = intent.getIntExtra(Config.SETTING_INTENT, Config.SYNC_UI)
+		prefScreen = intent.getIntExtra(Config.SETTING_INTENT, 0)
 		SettingsUI(prefScreen).setContentView(this)
 		pref = find<View>(R.id.settingPrefId)
 		super.setUp()
 		initUI()
 		when (prefScreen) {
 			Config.SYNC_UI -> syncUI()
+			Config.BACKUP_UI -> backupUI()
 		}
 	}
 	
@@ -42,7 +43,7 @@ class Settings : BaseActivity() {
 		when (prefScreen) {
 			Config.SYNC_UI -> {
 				val sync_enable = pref.find<MaterialSwitchPreference>(R.id.sync_enable)
-				val sync_contact_time = pref.find<MaterialChoicePreference>(R.id.sync_contact_time)
+				val sync_contact_time: MaterialChoicePreference = pref.find<MaterialChoicePreference>(R.id.sync_contact_time)
 				if (sync_enable.value) {
 					sync_enable.setSummary(getString(R.string.sync_enabled))
 					sync_contact_time.isEnabled = true
@@ -53,7 +54,15 @@ class Settings : BaseActivity() {
 					sync_contact_time.setBackgroundColor(Color.parseColor("#EAEAEA"))
 				}
 			}
+			
+			Config.BACKUP_UI -> {
+				
+			}
 		}
+	}
+	
+	fun backupUI() {
+		
 	}
 	
 	fun syncUI() {

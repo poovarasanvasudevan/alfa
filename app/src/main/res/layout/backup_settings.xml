@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@color/md_white_1000"
+              android:layout_height="match_parent">
+
+    <com.yarolegovich.mp.MaterialPreferenceCategory
+            android:layout_width="match_parent"
+            app:mpc_title="Backup"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp"
+            app:cardMaxElevation="0dp"
+            app:mpc_title_color="?colorPrimary"
+            android:layout_height="wrap_content">
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+                android:layout_width="match_parent"
+                app:mp_icon="@drawable/ic_access_time_black_24dp"
+                app:mp_title="Last Backup"
+                app:mp_summary="Last Backup Happend Today 8:23 AM"
+                android:layout_height="wrap_content"/>
+
+        <com.yarolegovich.mp.MaterialSwitchPreference
+                android:layout_width="match_parent"
+                app:mp_icon="@drawable/ic_backup_black_24dp"
+                app:mp_title="Backup"
+                app:mp_default_value="true"
+                android:id="@+id/backup_enable"
+                app:mp_key="backup_sync"
+                app:mp_summary="Backup is Enabled"
+                android:layout_height="wrap_content"/>
+
+        <com.yarolegovich.mp.MaterialChoicePreference
+                android:layout_width="match_parent"
+                app:mp_key="backup_key"
+                android:id="@+id/sync_backup_time"
+                app:mp_title="Backup Data On"
+                app:mp_entry_values="@array/message_sync_choice"
+                app:mp_show_value="onBottom"
+                app:mp_icon="@drawable/ic_timer_black_24dp"
+                android:layout_height="wrap_content"/>
+
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+    <View style="@style/Divider"/>
+
+    <com.yarolegovich.mp.MaterialPreferenceCategory
+            android:layout_width="match_parent"
+            app:mpc_title="Storage"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp"
+            app:cardMaxElevation="0dp"
+            app:mpc_title_color="?colorPrimary"
+            android:layout_height="wrap_content">
+
+        <com.yarolegovich.mp.MaterialChoicePreference
+                android:layout_width="match_parent"
+                app:mp_key="backup_provider_key"
+                android:id="@+id/backup_provider"
+                app:mp_title="Backup Data with"
+                app:mp_entry_values="@array/backup_provider"
+                app:mp_show_value="onBottom"
+                app:mp_icon="@drawable/ic_storage_black_24dp"
+                android:layout_height="wrap_content"/>
+
+        <com.yarolegovich.mp.MaterialMultiChoicePreference
+                android:layout_width="match_parent"
+                app:mp_key="backup_content_key"
+                android:id="@+id/backup_content"
+                app:mp_title="Backup Contents"
+                app:mp_entry_values="@array/backup_contents"
+                app:mp_show_value="onBottom"
+                app:mp_icon="@drawable/ic_archive_black_24dp"
+                android:layout_height="wrap_content"/>
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+</LinearLayout>

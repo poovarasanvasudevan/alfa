@@ -27,4 +27,5 @@ object Config {
 	
 	val SETTING_INTENT = "ui_intent"
 	val SYNC_UI = 421
+	val BACKUP_UI = 422
 }

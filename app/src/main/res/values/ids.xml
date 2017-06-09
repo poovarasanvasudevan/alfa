@@ -17,8 +17,19 @@
     <item name="contactPrefId" type="id"/>
     <item name="settingPrefId" type="id"/>
 
-
-
     <item name="contactListType" type="integer"/>
     <item name="pickImageList" type="id"/>
+
+    <item name="cameraView" type="id"/>
+    <item name="cameraViewTakePic" type="id"/>
+    <item name="cameraButtonLayout" type="id"/>
+    <item name="cameraViewPicReject" type="id"/>
+    <item name="backupPrefId" type="id"/>
+    <item name="messagingLayout" type="id"/>
+    <item name="messagingLayoutPlusButton" type="id"/>
+    <item name="messagingLayoutsendButton" type="id"/>
+    <item name="messagingFragment" type="id"/>
+    <item name="messageList" type="id"/>
+    <item name="inputMessage" type="id"/>
+    <item name="messageInclude" type="id"/>
 </resources>

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0084FF</color>
-    <color name="colorPrimaryDark">#0069CC</color>
+
+    <color name="colorPrimary">@color/md_indigo_500</color>
+    <color name="colorPrimaryDark">@color/md_indigo_700</color>
+
+    <!--<color name="colorPrimary">#0084FF</color>-->
+    <!--<color name="colorPrimaryDark">#0069CC</color>-->
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorPrimaryQuarter">#3303A9F4</color>
@@ -381,6 +385,8 @@
     <color name="md_blue_grey_700">#455A64</color>
     <color name="md_blue_grey_800">#37474F</color>
     <color name="md_blue_grey_900">#263238</color>
+    <color name="bgcolor">#EAEAEA</color>
+
 
 
 </resources>
